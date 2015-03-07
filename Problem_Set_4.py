@@ -33,8 +33,8 @@ def F():
 ##        dEx_list.append(E_sphere)
 ##    for elt in dEx_list:
     for i in xrange(int(sqrt(Lx) / dx)):                                                    # Taking all of the partitions of x
-        for i in xrange(int(sqrt(Ly) / dy)):                                                #   and calculating the electric field for 
-            theta = atan2(1, i)                                                             #   the corresponding line of y values
+        for j in xrange(int(sqrt(Ly) / dy)):                                                #   and calculating the electric field for 
+            theta = atan2(1, i*distance)                                                             #   the corresponding line of y values
             E_sphere = ((k * q_sphere) / (distance ** 2)) * sin (theta)                     # The j hat component of the electric field
             dEy_list.append(E_sphere)
     E = sum(dEy_list)
