@@ -50,22 +50,25 @@ class asymmetric_cap(capacitor):
         self.lambda_c = lambda_c                            # Cylinder surface charge
         self.Rs = Rs                                        # Radius of sphere
         self.sigma_c = sigma_c                              # Sphere surface charge
-        self.Qs = sigma_s/(4 * pi * (Rs**2))                # Charge of sphere
-        self.Qc = lambda_c/(2 * pi * Rc * hc)               # Charge of cylinder
+        self.Qs = sigma_s/(4 * pi * (Rs**2))                # Charge of sphere ####### CHECK THE UNITS!!!!!
+        self.Qc = lambda_c/(2 * pi * Rc * hc)               # Charge of cylinder ###### CHECK THE UNITS!!!!!
         self.distance_between = distance_between            # S
         self.q = self.Qs + self.Qc                          # Total charge is the summ of the charges on s and c
         ref[self] = self.q
         
 
     def capacitance(self):
-        Vs = ((k * self.Qs)/ self.Rs) - ((k * self.Qs)/ (self.distance_between- self.Rs))
-        Vc = -lambda_c * log((self.distance_between/self.Rc), 2.718281828) * k
+        Vs = ((k * self.Qs)/ self.Rs) - ((k * self.Qs)/ (self.distance_between- self.Rs)) #### You did these calculations
+        Vc = -lambda_c * log((self.distance_between/self.Rc), 2.718281828) * k  ### analytically, could you have done them
+                                                                            #### numerically instead?
+                                                                            ### Double check Vc and  do not confuse R_c and R_S!
         Vtot = Vs + Vc                                      # Total voltage is the sum of the voltages
         self.capacitance = self.q/Vtot
 
 
 class super_conductors(capacitor):
-    def __inti__(self, cap1, cap2, type_of_connection):
+    def __inti__(self, cap1, cap2, type_of_connection):  ###### This supercapacitor works, although type_of_connection
+                                                            #### is not a boolean but a string (check the sol)
         self.cap1 = cap1
         self.cap2 = cap2
         self.type_of_connection = str.lower(type_of_connection)     # This prevents an issue from arising if the user inputs a string with uppercase letters 
@@ -75,3 +78,6 @@ class super_conductors(capacitor):
             self.capacitance = self.cap1.capacitance + self.cap2.capacitance
         else:
             self.capacitance = (1/self.cap1.capacitance) + (1/self.cap2.capacitance) # Capacitors in series
+
+
+            ######## how about the charge method for super_conductors?
